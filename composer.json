@@ -13,7 +13,7 @@
     "require": {},
     "autoload": {
         "psr-0": {
-            "Kunoichi\\Bootstrapress": "src"
+            "Kunoichi\\BootstraPress": "src"
         }
     }
 }
