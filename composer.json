@@ -1,0 +1,19 @@
+{
+    "name": "kunoichi/bootstrapress",
+    "description": "UI wrapper of Bootstrap for WordPress.",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "fumikito",
+            "email": "guy@hametuha.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-0": {
+            "Kunoichi\\Bootstrapress": "src"
+        }
+    }
+}
