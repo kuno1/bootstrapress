@@ -13,7 +13,8 @@ php:
 - '7.1'
 - '7.2'
 - '7.3'
-services: mysql
+services:
+  - mysql
 before_script:
 - export PATH="$HOME/.composer/vendor/bin:$PATH"
 - composer install
@@ -23,7 +24,7 @@ before_script:
 - node --version
 - npm install
 - npm run extract
-- bash bin/install-wp-tests.sh wordpress_test root ''
+- bash bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1
 script:
 - composer test
 before_deploy:
