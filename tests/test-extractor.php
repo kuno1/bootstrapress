@@ -51,8 +51,6 @@ class ExtractTest extends WP_UnitTestCase {
 	public function test_font_size() {
 		$sizes = $this->extractor->get_text_sizes();
 		$this->assertNotEmpty( $sizes );
-		echo PHP_EOL;
-		print_r( $sizes );
 		foreach ( $sizes as $tag => $size ) {
 			$this->assertRegExp( '/^[0-9.]+(px|rem|em)$/u', $size, "{$tag} font size matches.");
 		}
