@@ -211,7 +211,7 @@ class Breadcrumb {
 				}
 			}
 		} elseif ( is_search() ) {
-			$links[] = new Item( sprintf( esc_html__( 'Search results of "%s"', 'ku-mag' ), get_search_query() ), [
+			$links[] = new Item( sprintf( '%s: %s', esc_html__( 'Search Results' ), get_search_query() ), '', [
 				'current' => true,
 			] );
 		}
