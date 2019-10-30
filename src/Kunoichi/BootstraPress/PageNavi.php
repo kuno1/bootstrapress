@@ -17,7 +17,7 @@ class PageNavi {
 	 * @param array $args
 	 */
 	public static function pagination( $args = [] ) {
-		$args = wp_parse_args( [
+		$args = wp_parse_args( $args, [
 			'position'  => 'start',
 			'prev_text' => '&lsaquo;',
 			'next_text' => '&rsaquo;',
@@ -34,6 +34,9 @@ class PageNavi {
 			'total'   => $wp_query->max_num_pages,
 			'type'    => 'array',
 		] ) );
+		if ( ! $links ) {
+			return;
+		}
 		?>
 		<nav aria-label="<?php echo esc_attr( $args['aria_label'] ) ?>">
 			<ul class="pagination justify-content-<?php echo esc_attr( $args['position'] ) ?>">
