@@ -38,7 +38,7 @@ class Extractor {
 	 * Extract property.
 	 *
 	 * @param string $selector
-	 * @return string;
+	 * @return string
 	 */
 	public function extract( $selector, $property ) {
 		$selector = str_replace( '.', '\\.', trim( $selector ) );
@@ -47,7 +47,7 @@ class Extractor {
 		}
 		list( $whole, $content ) = $match;
 		if ( ! preg_match( '/' . $property . ' *?:([^;}]+)/u', $content, $prop_match ) ) {
-			return 'nakatta';
+			return '';
 		}
 		return trim( str_replace( '!important', '', $prop_match[1] ) );
 	}

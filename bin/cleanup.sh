@@ -5,6 +5,7 @@ set -e
 # Remove unwanted files.
 rm -rf node_modules
 rm -rf package-lock.json
+rm -rf bootstrapress.php
 rm -rf tests
 rm -rf bin
 rm -rf dist

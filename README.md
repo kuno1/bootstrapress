@@ -59,6 +59,34 @@ function your_theme_link_pages() {
 }
 ```
 
+### Color Extractor
+
+You can extract colors for Gutenberg [color panel]().
+
+```php
+/**
+ * Register colors.
+ */
+add_action( 'after_setup_theme', function() {
+	if ( ! class_exists( 'Kunoichi\BootstraPress\Css\Extractor' ) ) {
+		return;
+	}
+	$extractor = new Kunoichi\BootstraPress\Css\Extractor( get_template_directory() . '/style.css' );
+	$pallets = $extractor->get_color_palette();
+	if ( ! $pallets ) {
+		return;
+	}
+	$colors = [];
+	foreach ( $pallets as $slug => $color ) {
+		$colors[] = [
+			'name'  => ucfirst( $slug ), // For i18n, consider translation function.
+			'slug'  => $slug,
+			'color' => $color,
+		];
+	}
+	add_theme_support( 'editor-color-palette', $colors );
+} );
+```
 
 ## License
 
