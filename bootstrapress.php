@@ -8,6 +8,9 @@
 	Author URI: https://kunoichiwp.com
  */
 
+use Kunoichi\BootstraPress\Helper\ImageMenu;
+use Kunoichi\BootstraPress\NavbarMenu;
+
 require __DIR__ . '/vendor/autoload.php';
 
 // Load bootstrap.css
@@ -30,4 +33,9 @@ $manager = new Kunoichi\BootstraPress\Customizer\CssManager( get_template_direct
 		'default' => '#111',
 	],
 ] );
+// Add menu
+new NavbarMenu( 'menu-1', [
 
+] );
+
+new ImageMenu( 'menu-1' );
