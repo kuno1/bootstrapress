@@ -168,4 +168,44 @@ class ImageMenu {
 			'message' => 'Image was deleted.',
 		] );
 	}
+	
+	/**
+	 * Detect if menu has image.
+	 *
+	 * @param int|\WP_Post $menu
+	 * @return bool
+	 */
+	public static function has_image( $menu ) {
+		return ( bool ) self::get_menu_image_id( $menu );
+	}
+	
+	/**
+	 * Get menu image ID.
+	 *
+	 * @param int|\WP_Post $menu
+	 *
+	 * @return int
+	 */
+	public static function get_menu_image_id( $menu ) {
+		$post = get_post( $menu );
+		if ( ! $post || 'nav_menu_item' !== $post->post_type ) {
+			return 0;
+		}
+		return (int) get_post_meta( $post->ID, '_menu_image', true );
+	}
+	
+	/**
+	 * Get menu image URL.
+	 *
+	 * @param int|\WP_Post $menu
+	 * @param string       $size Default 'thumbnail'
+	 * @return string
+	 */
+	public static function get_menu_image_url( $menu, $size = 'thumbnail' ) {
+		$id = self::get_menu_image_id( $menu );
+		if ( ! $id ) {
+			return '';
+		}
+		return wp_get_attachment_image_url( $id, $size );
+	}
 }
