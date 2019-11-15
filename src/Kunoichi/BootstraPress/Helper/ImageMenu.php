@@ -29,9 +29,6 @@ class ImageMenu {
 			self::$initialized = true;
 		}
 		$this->location = $theme_location;
-		$args = wp_parse_args( $args, [
-		
-		] );
 	}
 	
 	/**
@@ -44,7 +41,13 @@ class ImageMenu {
 		switch ( $screen->base ) {
 			case 'customize':
 			case 'nav-menus':
+				wp_enqueue_media();
 				wp_enqueue_script( 'bootstrapress-menu' );
+				wp_localize_script( 'bootstrapress-menu', 'BootStrapMenu', apply_filters( 'bootstrapress_menu_image_labels', [
+					'title' => __( 'Images' ),
+					'button' => __( 'Select' ),
+					'open'   => __( 'Media Library' ),
+				] ) );
 				break;
 		}
 	}
