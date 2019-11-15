@@ -16,6 +16,7 @@ rm -rf composer.lock
 rm -rf .gitignore
 rm -rf phpunit.xml.dist
 rm -rf .eslintrc
+rm -f dist/bootstrap.min.css
 # Flywheel
 rm -rf app
 rm -rf logs
