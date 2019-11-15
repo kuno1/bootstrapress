@@ -47,7 +47,7 @@ class NavImage {
         const image = `
             <figure class="bp-image">
                 <img class="bp-image-img" src="%1$s" alt="%2$s" />
-                <figcaption>%2$s</figcaption>
+                <figcaption class="bp-image-caption">%2$s</figcaption>
                 <button class="bp-image-delete"><span class="dashicons dashicons-no"></span></button>
             </figure>
         `;
@@ -109,9 +109,10 @@ class NavImage {
   elements( $target, direction = 'after' ) {
     const $button = $( sprintf( `
     <div class="bp-image-wrapper">
+      <label class="bp-image-label">%s</label>
       <button class="button bp-image-button">%s</button>
     </div>
-    `, BootStrapMenu.open ) );
+    `, BootStrapMenu.label, BootStrapMenu.open ) );
     $button.on( 'click', '.bp-image-button', ( e ) => {
       e.preventDefault();
       this.imageSelect();

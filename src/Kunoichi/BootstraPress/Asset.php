@@ -11,6 +11,8 @@ class Asset {
 	private static $instance = null;
 	
 	private $scripts = [];
+
+	private $styles = [];
 	
 	/**
 	 * Asset constructor.
@@ -27,6 +29,9 @@ class Asset {
 		foreach ( $this->scripts as list( $handle, $url, $deps, $version, $in_footer ) ) {
 			wp_register_script( $handle, $url, $deps, $version, $in_footer );
 		}
+		foreach ( $this->styles as list( $handle, $url, $deps, $version ) ) {
+			wp_register_style( $handle, $url, $deps, $version );
+		}
 	}
 	
 	/**
@@ -41,6 +46,44 @@ class Asset {
 	 * @return bool
 	 */
 	public static function register_script( $handle, $rel_path, $deps = [], $version = null, $in_footer = true ) {
+		$info = self::get_url_and_version( $rel_path, $version );
+		if ( ! $info ) {
+			return false;
+		}
+		list( $url, $version_no ) = $info;
+		self::get_instance()->scripts[] = [ $handle, $url, $deps, $version_no, $in_footer ];
+		return true;
+	}
+	
+	/**
+	 * Register style assets.
+	 *
+	 * @param string $handle
+	 * @param string $rel_path
+	 * @param array  $deps
+	 * @param null   $version
+	 * @param string $screen
+	 * @return bool
+	 */
+	public static function register_style( $handle, $rel_path, $deps = [], $version = null, $screen = 'screen' ) {
+		$info = self::get_url_and_version( $rel_path, $version );
+		if ( ! $info ) {
+			return false;
+		}
+		list( $url, $version_no ) = $info;
+		self::get_instance()->styles[] = [ $handle, $url, $deps, $version_no, $screen ];
+		return true;
+	}
+	
+	/**
+	 * Get url and version from relative path.
+	 *
+	 * @param string $rel_path
+	 * @param null|string $version
+	 *
+	 * @return array|bool
+	 */
+	private static function get_url_and_version( $rel_path, $version = null ) {
 		$path = self::path_from_rel_path( $rel_path );
 		if ( ! file_exists( $path ) ) {
 			return false;
@@ -49,8 +92,7 @@ class Asset {
 			$version = filemtime( $path );
 		}
 		$url = self::url_from_rel_path( $rel_path );
-		self::get_instance()->scripts[] = [ $handle, $url, $deps, $version, $in_footer ];
-		return true;
+		return [ $url, $version ];
 	}
 	
 	/**

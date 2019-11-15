@@ -24,6 +24,7 @@ class ImageMenu {
 	public function __construct( $theme_location, $args = [] ) {
 		if ( ! self::$initialized ) {
 			Asset::register_script( 'bootstrapress-menu', '/js/edit-menu.js', [ 'jquery', 'wp-api-fetch', 'wp-i18n' ] );
+			Asset::register_style( 'bootstrapress-menu', 'css/nav-menu.css' );
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_script' ] );
 			add_action( 'rest_api_init', [ $this, 'rest_api_init' ] );
 			self::$initialized = true;
@@ -41,13 +42,18 @@ class ImageMenu {
 		switch ( $screen->base ) {
 			case 'customize':
 			case 'nav-menus':
+				// Media library.
 				wp_enqueue_media();
+				// Helper scripts.
 				wp_enqueue_script( 'bootstrapress-menu' );
 				wp_localize_script( 'bootstrapress-menu', 'BootStrapMenu', apply_filters( 'bootstrapress_menu_image_labels', [
 					'title' => __( 'Images' ),
 					'button' => __( 'Select' ),
 					'open'   => __( 'Media Library' ),
+					'label'  => __( 'Image for Menu' ),
 				] ) );
+				// CSS.
+				wp_enqueue_style( 'bootstrapress-menu' );
 				break;
 		}
 	}
