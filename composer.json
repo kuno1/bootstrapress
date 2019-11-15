@@ -23,5 +23,10 @@
         "psr-0": {
             "Kunoichi\\BootstraPress": "src"
         }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "Kunoichi\\BootstraPressTest": "tests/src"
+        }
     }
 }

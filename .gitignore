@@ -1,7 +1,7 @@
 /vendor/
 composer.lock
 node_modules/
-dist/
+/dist/*.css
 package-lock.json
 /app/
 /conf/
