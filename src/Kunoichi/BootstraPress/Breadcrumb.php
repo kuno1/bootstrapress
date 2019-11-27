@@ -38,7 +38,7 @@ class Breadcrumb {
 			'separator'       => '',
 		] );
 		/** @var Item[] $links */
-		$links = apply_filters( 'ashiato_breadcrumbs', self::get_page_items( $args['label'] ) );
+		$links = apply_filters( 'bootstrapress_breadcrumbs', self::get_page_items( $args['label'] ) );
 		if ( ! $links ) {
 			return;
 		}
@@ -106,7 +106,7 @@ class Breadcrumb {
 	 */
 	public static function get_page_items( $home = '' ) {
 		if ( ! $home ) {
-			$home = __( 'Home' );
+			$home = apply_filters( 'bootstrapress_breadcrumb_home', __( 'Home' ) );
 		}
 		if ( self::$links ) {
 			return self::$links;
@@ -214,6 +214,20 @@ class Breadcrumb {
 			$links[] = new Item( sprintf( '%s: %s', esc_html__( 'Search Results' ), get_search_query() ), '', [
 				'current' => true,
 			] );
+		} elseif ( is_home() && ! is_front_page() ) {
+			// This is blog page.
+			$links[] = new Item( get_the_title( get_option( 'page_for_posts' ) ), '', [
+				'current' => true,
+			] );
+		} elseif ( is_post_type_archive() ) {
+			$post_type = get_query_var( 'post_type' );
+			$post_type_obj = get_post_type_object( $post_type );
+			if ( $post_type && $post_type_obj ) {
+				$post_type_label = apply_filters( 'bootstrapress_breadcrumb_post_type_label', $post_type_obj->label, $post_type_obj, $post_type );
+				$links[] = new Item( $post_type_label, '', [
+					'current' => true,
+				] );
+			}
 		}
 		array_unshift( $links, new Item( $home, home_url( '' ), [
 			'rel' => 'home',
