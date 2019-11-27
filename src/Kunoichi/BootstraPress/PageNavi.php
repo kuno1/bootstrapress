@@ -45,7 +45,7 @@ class PageNavi {
 						if ( false !== strpos( $link, 'dots' ) ) {
 							return sprintf( '<li class="page-item disabled">%s</li>', str_replace( 'dots', 'dots page-link', $link ) );
 						} else {
-							return sprintf( '<li class="page-item active">%s</li>', str_replace( 'class=\'', 'class=\'page-link ', $link ) );
+							return sprintf( '<li class="page-item active">%s</li>', preg_replace( '/class=([\'"])/u', 'class=$1page-link ', $link ) );
 						}
 					} else {
 						return sprintf( '<li class="page-item">%s</li>', str_replace( 'page-numbers', 'page-numbers page-link', $link ) );
