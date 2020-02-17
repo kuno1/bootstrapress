@@ -211,7 +211,7 @@ class Breadcrumb {
 				}
 			}
 		} elseif ( is_search() ) {
-			$links[] = new Item( sprintf( '%s: %s', esc_html__( 'Search Results' ), get_search_query() ), '', [
+			$links[] = new Item( sprintf( esc_html__( 'Search results of "%s"', 'ku-mag' ), get_search_query() ), false, [
 				'current' => true,
 			] );
 		} elseif ( is_home() && ! is_front_page() ) {
