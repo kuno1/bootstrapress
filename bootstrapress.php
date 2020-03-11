@@ -4,7 +4,7 @@
 	Plugin URI: https://github.com/kuno1/bootstrapress
 	Description: Twitter Bootstrap UI wrapper.
 	Author: Kunoichi INC.
-	Version: 0.2.0
+	Version: 0.4.3
 	Author URI: https://kunoichiwp.com
  */
 
@@ -58,3 +58,15 @@ add_filter( 'nav_menu_item_title', function( $title, $item, $args, $depth ) {
 	}
 	return $title;
 }, 10, 4 );
+
+add_filter( 'the_content', function( $content ) {
+	if ( is_singular() ) {
+		ob_start();
+		\Kunoichi\BootstraPress\Breadcrumb::display();
+		$breadcrumb = ob_get_contents();
+		ob_end_clean();
+		$content =  $breadcrumb . $content;
+	}
+	return $content;
+} );
+

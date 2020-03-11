@@ -10,17 +10,17 @@ use Kunoichi\BootstraPress\Breadcrumb\Item;
  * @package bootstrapress
  */
 class Breadcrumb {
-	
+
 	/**
 	 * @var Item[]
 	 */
 	static $links = [];
-	
+
 	/**
 	 * Constructor forbidden.
 	 */
 	final private function __construct() {}
-	
+
 	/**
 	 * Display breadcrumbs.
 	 *
@@ -78,7 +78,7 @@ class Breadcrumb {
 					'<a href="%1$s" class="%4$s" property="item" typeof="WebPage"%3$s%5$s>%2$s</a>',
 					esc_url( $link->link ),
 					$html,
-					$link->rel ? sprintf( ' rel="%s"', esc_attr( $link->rel ) ) : '',
+					'', // $link->rel ? sprintf( ' rel="%s"', esc_attr( $link->rel ) ) : '', // TODO: Fix rel attributes are really invalid for RDF markup.
 					$args['link_class'],
 					$link->current ? ' aria-current="page"' : ''
 				);
@@ -96,7 +96,7 @@ class Breadcrumb {
 		}
 		echo sprintf( '<nav class="breadcrumb-container" aria-label="Breadcrumb"><%2$s class="%3$s" vocab="https://schema.org/" typeof="BreadcrumbList">%1$s</%2$s></nav>', implode( $args['separator'], $output ), $container_wrap, esc_attr( $args['container_class'] ) );
 	}
-	
+
 	/**
 	 * Get breadcrumb page item.
 	 *
@@ -235,7 +235,7 @@ class Breadcrumb {
 		self::$links = $links;
 		return self::$links;
 	}
-	
+
 	/**
 	 * Get archive page.
 	 *
@@ -263,7 +263,7 @@ class Breadcrumb {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get post ancestors.
 	 *

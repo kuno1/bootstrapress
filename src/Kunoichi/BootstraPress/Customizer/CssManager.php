@@ -12,9 +12,9 @@ use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 class CssManager {
 
 	protected $path = '';
-	
+
 	protected $rules = [];
-	
+
 	/**
 	 * CssManager constructor.
 	 *
@@ -27,7 +27,7 @@ class CssManager {
 		add_action( 'update_option_theme_mods_' . get_option( 'stylesheet' ), [ $this, 'theme_mod_updated' ], 10, 2 );
 		add_action( 'customize_preview_init', [ $this, 'update_css_preview' ], 1 );
 	}
-	
+
 	/**
 	 * Check if theme mod is changed.
 	 *
@@ -61,7 +61,7 @@ class CssManager {
 		}
 		return $value;
 	}
-	
+
 	/**
 	 * Update production CSS.
 	 *
@@ -72,7 +72,7 @@ class CssManager {
 		// Save Css or remove.
 		$this->update_css( 'custom' );
 	}
-	
+
 	/**
 	 * Update CSS in preview pain.
 	 */
@@ -84,7 +84,7 @@ class CssManager {
 		}
 		$this->update_css( 'preview' );
 	}
-	
+
 	/**
 	 * Update CSS file.
 	 *
@@ -93,7 +93,6 @@ class CssManager {
 	 */
 	public function update_css( $name ) {
 		$path = $this->get_custom_css_path( $name );
-		error_log( '保存実行: ' . $path );
 		$changed = false;
 		foreach ( $this->rules as $key => $rule ) {
 			if ( $this->is_mod_changed( $key ) ) {
@@ -104,14 +103,13 @@ class CssManager {
 		foreach ( $this->rules as $key => $rule ) {
 			error_log( sprintf( '%s => %s', $key, get_theme_mod( $key ) ) );
 		}
-		error_log( '検証結果' . var_export( $changed, true ) );
 		if ( $changed ) {
 			return $this->dump_css( $name );
 		} elseif ( file_exists( $path ) ) {
 			return unlink( $path );
 		}
 	}
-	
+
 	/**
 	 * Get converted css.
 	 *
@@ -135,7 +133,7 @@ class CssManager {
 		}
 		return $content;
 	}
-	
+
 	/**
 	 * Dump CSS.
 	 *
@@ -151,7 +149,7 @@ class CssManager {
 		$content = $this->get_css_content();
 		return (bool) file_put_contents( $path, $content );
 	}
-	
+
 	/**
 	 * Get custom css path.
 	 *
@@ -166,7 +164,7 @@ class CssManager {
 		}
 		return $dir . '/' . $name . '.css';
 	}
-	
+
 	/**
 	 * Get css URL.
 	 *
