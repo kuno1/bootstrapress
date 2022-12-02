@@ -13,12 +13,12 @@ use Kunoichi\BootstraPress\Css\Extractor;
 class ExtractTest extends WP_UnitTestCase {
 
 	private $extractor = null;
-	
-	public function setUp() {
+
+	public function setUp():void {
 		parent::setUp();
 		$this->extractor = new Extractor( bootstrapress_dev_css() );
 	}
-	
+
 	/**
 	 * A single example test.
 	 */
@@ -30,7 +30,7 @@ class ExtractTest extends WP_UnitTestCase {
 		$alert_border = $this->extractor->extract( '.alert-primary', 'border-color' );
 		$this->assertEquals( '#b8daff', $alert_border );
 	}
-	
+
 	/**
 	 * Test theme color extract.
 	 */
@@ -47,7 +47,7 @@ class ExtractTest extends WP_UnitTestCase {
 			$this->assertRegExp( '/#[a-f0-9]{3,6}/u', $color, "{$theme} color palette matches.");
 		}
 	}
-	
+
 	public function test_font_size() {
 		$sizes = $this->extractor->get_text_sizes();
 		$this->assertNotEmpty( $sizes );
