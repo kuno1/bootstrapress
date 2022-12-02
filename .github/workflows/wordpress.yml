@@ -95,7 +95,7 @@ jobs:
           tools: composer:v2.2
 
       - name: Clean Package
-        run: bash bin/clean.sh
+        run: bash bin/cleanup.sh
 
       - name: Zip Archive
         run: zip -r ${{ github.event.repository.name }}.zip ./
