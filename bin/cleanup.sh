@@ -3,7 +3,7 @@
 set -e
 
 # Remove unwanted files.
-rm -ff .github/
+rm -rf .github/
 rm -rf node_modules
 rm -rf package-lock.json
 rm -rf bootstrapress.php
