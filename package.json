@@ -2,7 +2,10 @@
   "name": "bootstrapress",
   "version": "0.1.0",
   "description": "A Bootstrap Helper for WordPress.",
-  "main": "index.js",
+  "main": "gulpfile.js",
+  "engines": {
+    "node": ">=14.0"
+  },
   "scripts": {
     "start": "gulp default && gulp watch",
     "test": "echo \"Error: no test specified\" && exit 1",
