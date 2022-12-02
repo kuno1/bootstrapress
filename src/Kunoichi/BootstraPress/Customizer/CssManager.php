@@ -22,7 +22,7 @@ class CssManager {
 	 * @param array $rules
 	 */
 	public function __construct( $path, $rules ) {
-		$this->path = $path;
+		$this->path  = $path;
 		$this->rules = $rules;
 		add_action( 'update_option_theme_mods_' . get_option( 'stylesheet' ), [ $this, 'theme_mod_updated' ], 10, 2 );
 		add_action( 'customize_preview_init', [ $this, 'update_css_preview' ], 1 );
@@ -44,11 +44,11 @@ class CssManager {
 			return false;
 		}
 		$value  = get_theme_mod( $name );
-		$forced = isset( $rule[ 'forced' ] ) ? $rule[ 'forced' ] : false;
+		$forced = isset( $rule['forced'] ) ? $rule['forced'] : false;
 		if ( ! $value && ! $forced ) {
 			return false;
 		}
-		$default = [ $rule[ 'default' ], '' ];
+		$default = [ $rule['default'], '' ];
 		if ( preg_match( '/^#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])$/u', $default[0], $match ) ) {
 			$color = '#';
 			foreach ( range( 1, 3 ) as $index ) {
@@ -56,7 +56,7 @@ class CssManager {
 			}
 			$default[] = $color;
 		}
-		if ( in_array( $value, $default ) ) {
+		if ( in_array( $value, $default, true ) ) {
 			return false;
 		}
 		return $value;
@@ -92,7 +92,7 @@ class CssManager {
 	 * @return bool
 	 */
 	public function update_css( $name ) {
-		$path = $this->get_custom_css_path( $name );
+		$path    = $this->get_custom_css_path( $name );
 		$changed = false;
 		foreach ( $this->rules as $key => $rule ) {
 			if ( $this->is_mod_changed( $key ) ) {
@@ -124,10 +124,13 @@ class CssManager {
 			$value = '';
 			if ( isset( $rule['value'] ) ) {
 				$value = $rule['value'];
-			} elseif ( $mod_value = $this->is_mod_changed( $name ) ) {
-				$value = $mod_value;
 			} else {
-				continue;
+				$mod_value = $this->is_mod_changed( $name );
+				if ( $mod_value ) {
+					$value = $mod_value;
+				} else {
+					continue;
+				}
 			}
 			$content = str_replace( $rule['default'], $value, $content );
 		}
@@ -142,7 +145,7 @@ class CssManager {
 	 * @return bool
 	 */
 	public function dump_css( $name = 'custom' ) {
-		$path    = $this->get_custom_css_path( $name );
+		$path = $this->get_custom_css_path( $name );
 		if ( ! $path ) {
 			return false;
 		}
@@ -171,18 +174,19 @@ class CssManager {
 	 * @return string[]
 	 */
 	public function get_css_url() {
-		$name = is_customize_preview() ? 'preview' : 'custom';
-		$path = $this->path;
+		$name    = is_customize_preview() ? 'preview' : 'custom';
+		$path    = $this->path;
 		$changed = [];
 		foreach ( $this->rules as $key => $rule ) {
 			// If value is set, it means forced value.
 			if ( isset( $rule['value'] ) ) {
 				continue;
 			}
-			if ( ! ( $mod = $this->is_mod_changed( $key ) ) ) {
+			$mod = $this->is_mod_changed( $key );
+			if ( ! $mod ) {
 				continue;
 			}
-			$changed[] = $key.$mod;
+			$changed[] = $key . $mod;
 		}
 		$version = md5_file( $this->path );
 		if ( $changed ) {

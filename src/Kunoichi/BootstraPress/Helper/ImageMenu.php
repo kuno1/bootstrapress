@@ -10,11 +10,11 @@ use Kunoichi\BootstraPress\Asset;
  * @package bootstrapress
  */
 class ImageMenu {
-	
+
 	private static $initialized = false;
-	
+
 	protected $location = '';
-	
+
 	/**
 	 * Constructor
 	 *
@@ -31,7 +31,7 @@ class ImageMenu {
 		}
 		$this->location = $theme_location;
 	}
-	
+
 	/**
 	 * Enqueue page.
 	 *
@@ -47,7 +47,7 @@ class ImageMenu {
 				// Helper scripts.
 				wp_enqueue_script( 'bootstrapress-menu' );
 				wp_localize_script( 'bootstrapress-menu', 'BootStrapMenu', apply_filters( 'bootstrapress_menu_image_labels', [
-					'title' => __( 'Images' ),
+					'title'  => __( 'Images' ),
 					'button' => __( 'Select' ),
 					'open'   => __( 'Media Library' ),
 					'label'  => __( 'Image for Menu' ),
@@ -57,16 +57,16 @@ class ImageMenu {
 				break;
 		}
 	}
-	
+
 	/**
 	 * Register REST API.
 	 */
 	public function rest_api_init() {
 		register_rest_route( 'bootstrapress/v1', 'menu/(?P<post_id>\d+)/image', [
 			[
-				'methods' => [ 'GET', 'POST', 'DELETE' ],
-				'args' => [
-					'post_id' => [
+				'methods'             => [ 'GET', 'POST', 'DELETE' ],
+				'args'                => [
+					'post_id'       => [
 						'required'          => true,
 						'type'              => 'integer',
 						'description'       => 'REST Endpoint for menu image.',
@@ -75,8 +75,8 @@ class ImageMenu {
 						},
 					],
 					'attachment_id' => [
-						'type'        => 'integer',
-						'description' => 'Attachment image to assign.',
+						'type'              => 'integer',
+						'description'       => 'Attachment image to assign.',
 						'validate_callback' => function( $var ) {
 							return is_numeric( $var ) && wp_get_attachment_url( $var );
 						},
@@ -85,7 +85,7 @@ class ImageMenu {
 				'permission_callback' => function( \WP_REST_Request $request ) {
 					return current_user_can( 'edit_theme_options' );
 				},
-				'callback' => function( \WP_REST_Request $request ) {
+				'callback'            => function( \WP_REST_Request $request ) {
 					try {
 						$menu = get_post( $request->get_param( 'post_id' ) );
 						switch ( $request->get_method() ) {
@@ -109,7 +109,7 @@ class ImageMenu {
 			],
 		] );
 	}
-	
+
 	/**
 	 * Handle GET request.
 	 *
@@ -118,25 +118,31 @@ class ImageMenu {
 	 * @return \WP_REST_Response
 	 */
 	protected function handle_get( $post ) {
-		$attachment_id = get_post_meta( $post->ID, '_menu_image', true );
-		$attachment = get_post( $attachment_id );
-		if ( ! $attachment_id || ! ( $attachment = get_post( $attachment_id ) ) ) {
-			return new \WP_REST_Response( [
-				'success' => false,
-				'id'      => 0,
-				'src'     => '',
-				'title'   => '',
-			] );
-		} else {
+		try {
+			$attachment_id = get_post_meta( $post->ID, '_menu_image', true );
+			if ( ! $attachment_id ) {
+				throw new \Exception( 'Image not found.' );
+			}
+			$attachment = get_post( $attachment_id );
+			if ( ! $attachment ) {
+				throw new \Exception( 'Image not found.' );
+			}
 			return new \WP_REST_Response( [
 				'success' => true,
 				'id'      => $attachment_id,
 				'src'     => wp_get_attachment_image_url( $attachment_id, 'thumbnail' ),
 				'title'   => get_the_title( $attachment ),
 			] );
+		} catch ( \Exception $e ) {
+			return new \WP_REST_Response( [
+				'success' => false,
+				'id'      => 0,
+				'src'     => '',
+				'title'   => '',
+			] );
 		}
 	}
-	
+
 	/**
 	 * Attach image to menu item.
 	 *
@@ -153,7 +159,7 @@ class ImageMenu {
 			'title'   => get_the_title( $attachment ),
 		] );
 	}
-	
+
 	/**
 	 *
 	 *
@@ -168,7 +174,7 @@ class ImageMenu {
 			'message' => 'Image was deleted.',
 		] );
 	}
-	
+
 	/**
 	 * Detect if menu has image.
 	 *
@@ -176,9 +182,9 @@ class ImageMenu {
 	 * @return bool
 	 */
 	public static function has_image( $menu ) {
-		return ( bool ) self::get_menu_image_id( $menu );
+		return (bool) self::get_menu_image_id( $menu );
 	}
-	
+
 	/**
 	 * Get menu image ID.
 	 *
@@ -193,7 +199,7 @@ class ImageMenu {
 		}
 		return (int) get_post_meta( $post->ID, '_menu_image', true );
 	}
-	
+
 	/**
 	 * Get menu image URL.
 	 *

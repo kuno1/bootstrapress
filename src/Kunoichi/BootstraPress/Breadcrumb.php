@@ -29,8 +29,8 @@ class Breadcrumb {
 	 */
 	public static function display( $args = [] ) {
 		$args = wp_parse_args( $args, [
-			'type'  => 'list',
-			'label' => '',
+			'type'            => 'list',
+			'label'           => '',
 			'container_class' => 'breadcrumb',
 			'item_class'      => 'breadcrumb-item',
 			'text_class'      => 'breadcrumb-text',
@@ -61,7 +61,7 @@ class Breadcrumb {
 				break;
 		}
 		$counter = 0;
-		$output = [];
+		$output  = [];
 		foreach ( $links as $link ) {
 			$counter++;
 			$span_class = $args['text_class'];
@@ -117,7 +117,8 @@ class Breadcrumb {
 			/** @var \WP_Post $post */
 			$post = get_queried_object();
 			// Set archive.
-			if ( $archive = self::get_archive_page( $post ) ) {
+			$archive = self::get_archive_page( $post );
+			if ( $archive ) {
 				$links[] = $archive;
 			}
 			// Set parents.
@@ -132,7 +133,7 @@ class Breadcrumb {
 					// Do nothing.
 					break;
 				case 'post':
-					$taxonomies[ 'category' ] = get_the_category( $post->ID );
+					$taxonomies['category'] = get_the_category( $post->ID );
 					break;
 				default: // CPT
 					$post_type_object = get_post_type_object( $post->post_type );
@@ -196,21 +197,25 @@ class Breadcrumb {
 			] );
 		} elseif ( is_author() ) {
 			/** @var \WP_User $author */
-			$author = get_queried_object();
+			$author  = get_queried_object();
 			$links[] = new Item( __( 'Authors' ) );
 			$links[] = new Item( $author->display_name, get_author_posts_url( $author->ID ) );
 		} elseif ( is_date() ) {
 			$links[] = new Item( __( 'Date' ) );
-			if ( $year = get_query_var( 'year' ) ) {
+			$year    = get_query_var( 'year' );
+			if ( $year ) {
 				$links[] = new Item( $year, get_year_link( $year ) );
-				if ( $month = get_query_var( 'monthnum' ) ) {
+				$month   = get_query_var( 'monthnum' );
+				if ( $month ) {
 					$links[] = new Item( $month, get_month_link( $year, $month ) );
-					if ( $day = get_query_var( 'day' ) ) {
+					$day     = get_query_var( 'day' );
+					if ( $day ) {
 						$links[] = new Item( $day, get_day_link( $year, $month, $day ) );
 					}
 				}
 			}
 		} elseif ( is_search() ) {
+			// translators: %s is seqrch query.
 			$links[] = new Item( sprintf( esc_html__( 'Search results of "%s"', 'ku-mag' ), get_search_query() ), false, [
 				'current' => true,
 			] );
@@ -220,11 +225,11 @@ class Breadcrumb {
 				'current' => true,
 			] );
 		} elseif ( is_post_type_archive() ) {
-			$post_type = get_query_var( 'post_type' );
+			$post_type     = get_query_var( 'post_type' );
 			$post_type_obj = get_post_type_object( $post_type );
 			if ( $post_type && $post_type_obj ) {
 				$post_type_label = apply_filters( 'bootstrapress_breadcrumb_post_type_label', $post_type_obj->label, $post_type_obj, $post_type );
-				$links[] = new Item( $post_type_label, '', [
+				$links[]         = new Item( $post_type_label, '', [
 					'current' => true,
 				] );
 			}
@@ -246,7 +251,8 @@ class Breadcrumb {
 	public static function get_archive_page( $post ) {
 		switch ( $post->post_type ) {
 			case 'post':
-				if ( $index_page = get_option( 'page_for_posts' ) ) {
+				$index_page = get_option( 'page_for_posts' );
+				if ( $index_page ) {
 					return new Item( get_the_title( $index_page ), get_permalink( $index_page ) );
 				}
 				break;
@@ -272,7 +278,7 @@ class Breadcrumb {
 	 * @return Item[]
 	 */
 	public static function get_ancestors( $post ) {
-		$parents = [];
+		$parents   = [];
 		$parent_id = $post->post_parent;
 		while ( $parent_id ) {
 			$parent = get_post( $parent_id );

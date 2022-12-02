@@ -9,14 +9,14 @@ namespace Kunoichi\BootstraPress\Customizer;
  * @package bootstrapress
  */
 class ColorController {
-	
+
 	/**
 	 * @var array Setting.
 	 */
 	protected $args = [];
-	
+
 	protected $colors = [];
-	
+
 	/**
 	 * Constructor
 	 *
@@ -35,18 +35,18 @@ class ColorController {
 	 */
 	public function __construct( $colors, $args = [] ) {
 		$this->colors = $colors;
-		$this->args = wp_parse_args( $args, [
+		$this->args   = wp_parse_args( $args, [
 			'section'        => 'colors',
 			'create_section' => false,
 			'section_label'  => __( 'Colors' ),
 			'priority'       => 30,
-			'prefix'         => 'color_'
+			'prefix'         => 'color_',
 		] );
 		// Register settings.
 		add_action( 'customize_register', [ $this, 'register' ], 11 );
 	}
-	
-	
+
+
 	/**
 	 * Register Customizer.
 	 *

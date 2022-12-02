@@ -12,19 +12,19 @@ namespace Kunoichi\BootstraPress\Css;
  * @property-read string $content
  */
 class Extractor {
-	
+
 	/**
 	 * @var string CSS path.
 	 */
 	protected $path = '';
-	
+
 	/**
 	 * Content cache.
 	 *
 	 * @var string|null
 	 */
 	protected $_content = null;
-	
+
 	/**
 	 * Extractor constructor.
 	 *
@@ -33,7 +33,7 @@ class Extractor {
 	public function __construct( $path ) {
 		$this->path = $path;
 	}
-	
+
 	/**
 	 * Extract property.
 	 *
@@ -51,7 +51,7 @@ class Extractor {
 		}
 		return trim( str_replace( '!important', '', $prop_match[1] ) );
 	}
-	
+
 	/**
 	 * Get theme names.
 	 *
@@ -66,11 +66,11 @@ class Extractor {
 			'warning',
 			'danger',
 			'light',
-			'dark'
+			'dark',
 		];
 		return apply_filters( 'bootstrapress_themes', $themes );
 	}
-	
+
 	/**
 	 * Extract heading font-size.
 	 */
@@ -84,7 +84,7 @@ class Extractor {
 		}
 		return $sizes;
 	}
-	
+
 	/**
 	 * Get theme colors.
 	 *
@@ -93,7 +93,7 @@ class Extractor {
 	public function get_text_colors() {
 		return array_merge( [ 'white' => '#fff' ], $this->get_theme_colors(), [ 'black' => '#000' ] );
 	}
-	
+
 	/**
 	 * Get background colors.
 	 *
@@ -113,7 +113,7 @@ class Extractor {
 		$colors['black'] = '#000';
 		return $colors;
 	}
-	
+
 	/**
 	 * Get color pallet.
 	 *
@@ -122,7 +122,7 @@ class Extractor {
 	public function get_color_palette() {
 		return array_merge( $this->get_text_colors(), $this->get_bg_colors( 'bg-' ) );
 	}
-	
+
 	/**
 	 * Get theme color list.
 	 *
@@ -135,7 +135,7 @@ class Extractor {
 		}
 		return $colors;
 	}
-	
+
 	/**
 	 * Getter
 	 *

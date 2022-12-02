@@ -13,13 +13,13 @@ namespace Kunoichi\BootstraPress\Breadcrumb;
  */
 class Item {
 
-	
+
 	private $_label = '';
-	
-	private $_link  = '';
-	
+
+	private $_link = '';
+
 	private $args = [];
-	
+
 	/**
 	 * Constructor
 	 *
@@ -32,7 +32,7 @@ class Item {
 		$this->_link  = $link;
 		$this->args   = $args;
 	}
-	
+
 	/**
 	 * Getter
 	 *

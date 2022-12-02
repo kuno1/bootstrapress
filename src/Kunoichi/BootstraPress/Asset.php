@@ -7,13 +7,13 @@ namespace Kunoichi\BootstraPress;
  * @package Kunoichi\BootstraPress
  */
 class Asset {
-	
+
 	private static $instance = null;
-	
+
 	private $scripts = [];
 
 	private $styles = [];
-	
+
 	/**
 	 * Asset constructor.
 	 */
@@ -21,7 +21,7 @@ class Asset {
 		// Avoid initialize.
 		add_action( 'init', [ $this, 'register_assets' ] );
 	}
-	
+
 	/**
 	 * Register assets.
 	 */
@@ -33,7 +33,7 @@ class Asset {
 			wp_register_style( $handle, $url, $deps, $version );
 		}
 	}
-	
+
 	/**
 	 * Register script to enqueue.
 	 *
@@ -50,11 +50,11 @@ class Asset {
 		if ( ! $info ) {
 			return false;
 		}
-		list( $url, $version_no ) = $info;
+		list( $url, $version_no )       = $info;
 		self::get_instance()->scripts[] = [ $handle, $url, $deps, $version_no, $in_footer ];
 		return true;
 	}
-	
+
 	/**
 	 * Register style assets.
 	 *
@@ -70,11 +70,11 @@ class Asset {
 		if ( ! $info ) {
 			return false;
 		}
-		list( $url, $version_no ) = $info;
+		list( $url, $version_no )      = $info;
 		self::get_instance()->styles[] = [ $handle, $url, $deps, $version_no, $screen ];
 		return true;
 	}
-	
+
 	/**
 	 * Get url and version from relative path.
 	 *
@@ -94,7 +94,7 @@ class Asset {
 		$url = self::url_from_rel_path( $rel_path );
 		return [ $url, $version ];
 	}
-	
+
 	/**
 	 * Get file path from relative path.
 	 *
@@ -103,7 +103,7 @@ class Asset {
 	private static function path_from_rel_path( $rel_path ) {
 		return dirname( dirname( dirname( __DIR__ ) ) ) . '/dist/' . ltrim( $rel_path, '/' );
 	}
-	
+
 	/**
 	 * Convert rel path to URL.
 	 *
@@ -114,7 +114,7 @@ class Asset {
 		$path = self::path_from_rel_path( $rel_path );
 		return str_replace( ABSPATH, home_url( '/' ), $path );
 	}
-	
+
 	/**
 	 * Get instance.
 	 *

@@ -8,14 +8,14 @@ namespace Kunoichi\BootstraPress;
  * @package bootstrapress
  */
 class NavbarMenu {
-	
+
 	/**
 	 * @var string Theme location.
 	 */
 	public $theme_location = '';
-	
+
 	private $args = [];
-	
+
 	/**
 	 * Constructor.
 	 *
@@ -24,7 +24,7 @@ class NavbarMenu {
 	 */
 	public function __construct( $theme_location, $args = [] ) {
 		$this->theme_location = $theme_location;
-		$this->args = wp_parse_args( $args, [
+		$this->args           = wp_parse_args( $args, [
 			'item_class'   => 'nav-item',
 			'active_class' => 'active',
 		] );
@@ -33,7 +33,7 @@ class NavbarMenu {
 		// Customize a.
 		add_filter( 'nav_menu_link_attributes', [ $this, 'nav_menu_link_attributes' ], 10, 4 );
 	}
-	
+
 	/**
 	 * Customize list item class.
 	 *
@@ -57,7 +57,7 @@ class NavbarMenu {
 		}
 		return $classes;
 	}
-	
+
 	/**
 	 * Customize link attributes.
 	 *
@@ -72,8 +72,8 @@ class NavbarMenu {
 			// This is not my turn.
 			return $attributes;
 		}
-		$classes = isset( $attributes['class'] ) ? explode( ' ', $attributes['class'] ) : [];
-		$classes[] = 'nav-link';
+		$classes             = isset( $attributes['class'] ) ? explode( ' ', $attributes['class'] ) : [];
+		$classes[]           = 'nav-link';
 		$attributes['class'] = implode( ' ', $classes );
 		return $attributes;
 	}

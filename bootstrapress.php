@@ -15,7 +15,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Load bootstrap.css
 $controller = new Kunoichi\BootstraPress\Customizer\ColorController( [
-	'primary' => [
+	'primary'   => [
 		'label' => 'プライマリー',
 		'color' => '#0073aa',
 	],
@@ -26,7 +26,7 @@ $controller = new Kunoichi\BootstraPress\Customizer\ColorController( [
 ] );
 
 $manager = new Kunoichi\BootstraPress\Customizer\CssManager( get_template_directory() . '/style.css', [
-	'color_primary' => [
+	'color_primary'   => [
 		'default' => '#0073aa',
 	],
 	'color_secondary' => [
@@ -34,13 +34,11 @@ $manager = new Kunoichi\BootstraPress\Customizer\CssManager( get_template_direct
 	],
 ] );
 // Add menu
-new NavbarMenu( 'menu-1', [
-
-] );
+new NavbarMenu( 'menu-1', [] );
 
 new ImageMenu( 'menu-1' );
 
-add_filter( 'nav_menu_css_class', function( $classes, $item, $depth )  {
+add_filter( 'nav_menu_css_class', function( $classes, $item, $depth ) {
 	if ( ImageMenu::has_image( $item ) ) {
 		$classes[] = 'menu-item-with-img';
 	}
@@ -65,7 +63,7 @@ add_filter( 'the_content', function( $content ) {
 		\Kunoichi\BootstraPress\Breadcrumb::display();
 		$breadcrumb = ob_get_contents();
 		ob_end_clean();
-		$content =  $breadcrumb . $content;
+		$content = $breadcrumb . $content;
 	}
 	return $content;
 } );
